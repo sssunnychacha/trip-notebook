@@ -12,12 +12,12 @@
    PICTURE: 맨 위 「오늘」 카드 자체(큰 날짜·다음 이동 시각·예약번호 꼬리표)
    COLOUR and TYPE: 흰 바탕·먹색 글, 항공우편 파랑 #2448b5 주색, 빨강 #d93a2b 강조 / IBM Plex Sans KR 4단계
    LAYOUT: 한 줄 기둥(최대 640px), 아래 고정 탭 7개, 카드는 날짜순 목록 */
-:root{color-scheme:light dark;--bg:light-dark(#ffffff,#0f131c);--ink:light-dark(#16181d,#eef0f4);--sub:light-dark(#5b6170,#a3a9b8);
---line:light-dark(#e3e6ec,#262c3a);--card:light-dark(#f6f7fa,#171c27);--blue:light-dark(#2448b5,#8fa8ff);--red:light-dark(#d93a2b,#ff7b6b);
---tag:light-dark(#eaf0ff,#1d2640);--dim:light-dark(#9aa0ad,#5d6474)}
+:root{color-scheme:light dark;--bg:light-dark(#ffffff,#0f131c);--ink:light-dark(#16181d,#eef0f4);--sub:light-dark(#40464f,#c6cbd6);
+--line:light-dark(#dcdfe6,#2c3343);--card:light-dark(#f6f7fa,#171c27);--blue:light-dark(#2448b5,#8fa8ff);--red:light-dark(#d93a2b,#ff7b6b);
+--tag:light-dark(#eaf0ff,#1d2640);--dim:light-dark(#757b88,#8a91a1)}
 :root[data-theme=light]{color-scheme:light}:root[data-theme=dark]{color-scheme:dark}
 *{box-sizing:border-box;min-width:0}
-body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 "IBM Plex Sans KR",system-ui,-apple-system,sans-serif;overflow-x:clip;
+body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.55 "IBM Plex Sans KR",system-ui,-apple-system,sans-serif;overflow-x:clip;
 padding:env(safe-area-inset-top) env(safe-area-inset-right) calc(100px + env(safe-area-inset-bottom)) env(safe-area-inset-left)}
 .savebadge{position:sticky;top:0;z-index:6;max-width:640px;margin:0 auto;padding:6px 16px 4px;text-align:right;font-size:12px;color:var(--sub);background:var(--bg)}
 .savebadge::before{content:"";display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--dim);margin-right:6px;vertical-align:1px}
@@ -25,18 +25,18 @@ padding:env(safe-area-inset-top) env(safe-area-inset-right) calc(100px + env(saf
 main{max-width:640px;margin:0 auto;padding:16px}
 h1{font-size:32px;line-height:1.05;margin:4px 0 2px;text-wrap:balance}
 h2{font-size:20px;margin:28px 0 10px}
-.sub{color:var(--sub);font-size:14px}
+.sub{color:var(--sub);font-size:15px}
 .card{background:var(--card);border-radius:14px;padding:14px 16px;margin:10px 0;position:relative}
 .tagcard{border:2px solid var(--blue);background:var(--bg)}
 .tagcard::before{content:"";position:absolute;top:14px;right:14px;width:12px;height:12px;border-radius:50%;border:2px solid var(--blue)}
 .big{font-size:32px;font-weight:700;line-height:1.1;font-variant-numeric:tabular-nums}
-.k{font-size:13px;color:var(--sub);margin-bottom:2px}
+.k{font-size:14px;color:var(--sub);margin-bottom:2px;font-weight:600}
 .row{display:flex;gap:12px;padding:10px 0;border-top:1px solid var(--line)}
 .row:first-child{border-top:0}
-.when{flex:none;width:3.2em;font-weight:600;color:var(--blue);font-size:14px;padding-top:2px}
+.when{flex:none;width:3.4em;font-weight:700;color:var(--blue);font-size:15px;padding-top:2px}
 .what{flex:1}
-.note{font-size:14px;color:var(--sub);white-space:pre-line;overflow-wrap:anywhere}
-.pl{font-size:14px;color:var(--sub);margin:4px 0 0}.pl b{color:var(--ink);font-weight:600}
+.note{font-size:16px;color:var(--ink);white-space:pre-line;overflow-wrap:anywhere}
+.pl{font-size:15px;color:var(--sub);margin:4px 0 0}.pl b{color:var(--ink);font-weight:600}
 a.map{display:inline-flex;align-items:center;gap:4px;color:var(--blue);font-weight:600;text-decoration:none;min-height:36px;overflow-wrap:anywhere}
 a.map::before{content:"";flex:none;width:10px;height:10px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);background:var(--red)}
 .code{display:inline-block;font:700 15px/1 ui-monospace,Menlo,monospace;letter-spacing:.04em;background:var(--tag);color:var(--blue);
@@ -83,6 +83,26 @@ table.bt th{color:var(--sub);font-weight:600}table.bt .num{text-align:right}
 .viewer .vbar{position:sticky;top:0;display:flex;align-items:center;gap:8px;padding:10px 12px;background:var(--bg);border-bottom:1px solid var(--line)}
 .viewer .vbar b{flex:1;font-size:16px}
 .viewer img{display:block;width:100%;max-width:900px;margin:8px auto;background:#fff}
+.tt{font-size:34px;font-weight:700;line-height:1.1;font-variant-numeric:tabular-nums;margin-top:4px}.tt .arr{color:var(--blue)}
+.tt small{font-size:14px;color:var(--red);margin-left:8px;font-weight:700;vertical-align:middle}
+.tt2{font-size:18px;font-weight:600;margin-top:4px}
+.route{font-size:19px;font-weight:700;margin-top:6px}
+.nm{font-weight:700;font-size:20px;line-height:1.3}
+.ci{font-size:17px;margin-top:4px}
+.btns{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.mapbtn{flex:1 1 140px;display:inline-flex;align-items:center;gap:8px;min-height:46px;padding:6px 12px;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--ink);text-decoration:none;font-weight:600;font-size:15px;line-height:1.3;overflow-wrap:anywhere}
+.mapbtn::before{content:"";flex:none;width:10px;height:10px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);background:var(--red)}
+details.more{margin-top:10px;border-top:1px solid var(--line)}
+details.more>summary{min-height:44px;padding:10px 0 4px;color:var(--blue);font-weight:600;font-size:15px}
+details.more>summary::after{content:"▾";margin-left:4px}details.more[open]>summary::after{content:"▴"}
+.strip{display:flex;gap:6px;overflow-x:auto;padding:4px 2px 10px;margin:8px -16px 0;padding-left:16px;padding-right:16px;scrollbar-width:none}
+.strip::-webkit-scrollbar{display:none}
+.dchip{flex:none;display:flex;flex-direction:column;align-items:center;justify-content:center;min-width:52px;min-height:58px;padding:4px 6px;border-radius:12px;font-size:16px;line-height:1.2;font-variant-numeric:tabular-nums}
+.dchip b{font-size:13px;color:var(--sub);font-weight:600}.dchip.newm{border-color:var(--blue)}
+.dchip.on{background:var(--blue);color:var(--bg);border-color:var(--blue)}.dchip.on b{color:var(--bg)}.dchip.past:not(.on){opacity:.55}
+.daynav{display:flex;align-items:center;gap:8px;margin-top:4px}.daynav button{flex:none;width:48px;min-height:52px;font-size:28px;padding:0}.daynav button:disabled{opacity:.3}
+.dhead{flex:1;text-align:center}
+.hit{display:block;width:100%;text-align:left;border:0;border-top:1px solid var(--line);border-radius:0;background:none;font-weight:400;font-size:16px}.hit:first-child{border-top:0}
 @media(prefers-reduced-motion:reduce){.toast{transition:none}}
 </style>
 <link rel="manifest" href="manifest.webmanifest">
@@ -208,34 +228,38 @@ function status(t) { const el = $('#save'); if (!el) return; t = t || (ref ? '�
 
 // ---------- 화면 ----------
 const memoBox = date => `<div class="k" style="margin-top:12px">메모 · ${md(date)}</div><textarea data-memo="${esc(date)}" placeholder="이 날 메모">${esc(S.memos[date] || '')}</textarea>`;
-const detailRows = date => D.detail.filter(x => x.date === date).map(x => `<div class="row"><div class="when">${esc(x.when)}</div><div class="what">
+// 긴 글은 「더보기」로 접기
+const more = (inner, label = '더보기') => inner && inner.replace(/<[^>]+>/g, '').trim() ? `<details class="more"><summary>${label}</summary><div>${inner}</div></details>` : '';
+const noteTxt = arr => { const t = arr.filter(Boolean).join('\n'); return t ? `<div class="note">${esc(t)}</div>` : ''; };
+const mapBtn = (label, q) => `<a class="mapbtn" href="${esc(mapUrl(q))}" target="_blank" rel="noopener">${esc(label)}</a>`;
+const bookH = (docs, links, codes) => ((docs || []).length || (links || []).length ? `<div>${docH(docs)}${goH(links, codes)}</div>` : '') + ((codes || []).length ? `<div>${codesH(codes)}</div>` : '');
+const detailRows = date => D.detail.filter(x => x.date === date).map(x => {
+  const n = [x.note, x.book && '예약: ' + x.book, x.memo].filter(Boolean).join('\n');
+  return `<div class="row"><div class="when">${esc(x.when)}</div><div class="what">
   <div>${esc(x.what)}</div>${x.addr ? mapA(x.addr, addrQ(x.addr, x.city)) : ''}
-  <div class="note">${esc([x.note, x.book && '예약: ' + x.book, x.memo].filter(Boolean).join('\n'))}</div>
-  <div>${stateP(x.state)}</div></div></div>`).join('');
+  ${n.length > 50 ? more(noteTxt([n])) : noteTxt([n])}${x.state ? `<div>${stateP(x.state)}</div>` : ''}</div></div>`; }).join('');
 
+const TM = /^(\d{1,2}:\d{2})\s*→\s*(익일\s*)?(\d{1,2}:\d{2})\s*(.*)$/;
 function moveCard(m, cls = '') {
-  const [a, b] = m.ends || [];
-  const fl = (m.flight || []).map(f => `<div class="note">${esc([f.flight, f.bag && '수하물 ' + f.bag, f.note].filter(Boolean).join('\n'))}</div>`).join('');
-  return `<div class="card ${cls}"><div class="k">${md(m.date)} · ${esc(m.mode)} ${esc(m.op)}</div>
-  <div class="big" style="font-size:24px">${esc(m.time)}</div>
-  <div style="font-weight:600;margin-top:4px">${esc(m.from_)} → ${esc(m.to)}</div>${plH(m.places)}
-  <div>${a ? '출발 ' + mapA(a, a + ' ' + m.from_) : mapA(m.from_ + ' 출발', m.from_)}</div>
-  <div>${b ? '도착 ' + mapA(b, b + ' ' + m.to) : mapA(m.to + ' 도착', m.to)}</div>
-  <div>${docH(m.docs)}${goH(m.links, m.codes)}</div><div>${codesH(m.codes)}</div>
-  <div class="note" style="margin-top:6px">${esc([m.via && '예약처 ' + m.via, m.cost && '예산 ' + won(m.cost), m.note].filter(Boolean).join('\n'))}</div>${fl}
-  <div style="margin-top:6px">${stateP(m.state)}</div></div>`;
+  const [a, b] = m.ends || [], tm = TM.exec(m.time || '');
+  const timeH = tm ? `<div class="tt">${tm[1]}<span class="arr"> → </span>${tm[3]}${tm[2] ? '<small>다음 날</small>' : ''}</div>${tm[4] ? `<div class="sub">${esc(tm[4].replace(/^[\s·(]+|\)\s*$/g, ''))}</div>` : ''}`
+    : m.time ? `<div class="tt2">${esc(m.time)}</div>` : '';
+  const fl = (m.flight || []).map(f => [f.flight, f.bag && '수하물 ' + f.bag, f.note].filter(Boolean).join('\n')).join('\n');
+  return `<div class="card ticket ${cls}"><div class="k">${md(m.date)} · ${esc(m.mode)} ${esc(m.op)}</div>${timeH}
+  <div class="route">${esc(m.from_)} → ${esc(m.to)}</div>
+  <div class="btns">${mapBtn('출발 · ' + (a || m.from_), a ? a + ' ' + m.from_ : m.from_)}${mapBtn('도착 · ' + (b || m.to), b ? b + ' ' + m.to : m.to)}</div>
+  ${bookH(m.docs, m.links, m.codes)}${m.state ? `<div style="margin-top:8px">${stateP(m.state)}</div>` : ''}
+  ${more(plH(m.places) + noteTxt([m.via && '예약처 ' + m.via, m.cost && '예산 ' + won(m.cost), m.note, fl]))}</div>`;
 }
 function stayCard(s, cls = '') {
   const q = s.addr ? addrQ(s.addr, s.name || s.city) : [s.name, s.city].filter(Boolean).join(' ');
   return `<div class="card ${cls}"><div class="k">${md(s.cin)} → ${md(s.cout)} · ${esc(s.nights)}박</div>
-  <div style="font-weight:700;font-size:18px">${esc(s.name || '숙소 미정')}</div>
-  <div class="sub">${esc(s.city)}${s.room ? ' · ' + esc(s.room) : ''}</div>${plH(s.places)}
-  ${s.checkin ? `<div>체크인 <b>${esc(s.checkin)}</b></div>` : ''}
-  <div>${mapA(s.addr || (s.name ? '지도에서 숙소 찾기' : s.city.replace(/\(.*?\)/g, '').trim() + ' 지도'), q)}</div>
-  <div>${docH(s.docs)}${goH(s.links, s.codes)}</div><div>${codesH(s.codes)}</div>
-  <div class="note" style="margin-top:6px">${esc([s.via && '예약처 ' + s.via, s.paid && '결제 ' + won(s.paid), s.note].filter(Boolean).join('\n'))}</div>
-  ${s.link ? `<a class="map" href="${esc(s.link)}" target="_blank" rel="noopener">예약 페이지</a>` : ''}
-  <div style="margin-top:6px">${stateP(s.book)} ${stateP(s.pay)}</div></div>`;
+  <div class="nm">${esc(s.name || '숙소 미정')}</div><div class="sub">${esc(s.city)}</div>
+  ${s.checkin ? `<div class="ci">체크인 <b>${esc(s.checkin)}</b></div>` : ''}
+  <div class="btns">${mapBtn(s.addr ? '숙소 지도' : s.name ? '지도에서 숙소 찾기' : s.city.replace(/\(.*?\)/g, '').trim() + ' 지도', q)}</div>
+  ${bookH(s.docs, s.links, s.codes)}${s.book || s.pay ? `<div style="margin-top:8px">${stateP(s.book)} ${stateP(s.pay)}</div>` : ''}
+  ${more(plH(s.places) + noteTxt([s.addr && '주소 ' + s.addr, s.room && '방 ' + s.room, s.via && '예약처 ' + s.via, s.paid && '결제 ' + won(s.paid), s.note])
+    + (s.link ? `<a class="map" href="${esc(s.link)}" target="_blank" rel="noopener">예약 페이지</a>` : ''))}</div>`;
 }
 
 function vToday() {
@@ -261,18 +285,31 @@ function vToday() {
   <p class="sub">데이터 기준 ${esc(D.built)} · 정본에서 뽑은 보기 전용(일정 수정은 정본에서)</p>`;
 }
 
+let selDay = null, dayQ = '';
 function vDays() {
-  const t = today(); let m = '';
-  return `<h1>날짜별 일정</h1><div class="tools"><input type="search" id="q" placeholder="도시·장소 검색" aria-label="검색"><button id="go-today">오늘로</button></div>
-  <div id="daylist">${D.days.map(x => {
-    const mm = x.date.slice(0, 7), head = mm !== m ? `<div class="month">${+mm.slice(0, 4)}년 ${+mm.slice(5)}월</div>` : ''; m = mm;
-    const has = S.memos[x.date] ? ' ✎' : '';
-    return `${head}<details class="day${x.date < t ? ' past' : ''}" id="d-${x.date}" data-s="${esc((x.city + ' ' + x.plan + ' ' + x.country).toLowerCase())}">
-    <summary><span class="dt">${md(x.date)}</span><span><b>${esc(x.city)}</b>${esc(has)}<br><span class="sub">${esc(x.plan)}</span></span></summary>
-    <div class="card">${plH(x.places)}<div class="note">${esc([x.stay && '숙박 ' + x.stay, x.coffee && '커피 ' + x.coffee, x.note].filter(Boolean).join('\n'))}</div>
-    ${detailRows(x.date)}${memoBox(x.date)}</div></details>`;
-  }).join('')}</div>`;
+  const t = today(), first = D.days[0].date, last = D.days[D.days.length - 1].date;
+  const sel = selDay || (t < first ? first : t > last ? last : t);
+  const i = D.days.findIndex(y => y.date === sel), x = D.days[i];
+  const mvs = D.moves.filter(m => m.date === sel), st = D.stays.find(s => s.cin <= sel && sel < s.cout);
+  const q = dayQ.trim().toLowerCase(), hits = q ? D.days.filter(y => (y.city + ' ' + y.plan + ' ' + y.country).toLowerCase().includes(q)) : [];
+  let mon = '';
+  const strip = D.days.map(y => { const mm = +y.date.slice(5, 7), nm = mm !== mon; mon = mm;
+    return `<button class="dchip${y.date === sel ? ' on' : ''}${y.date < t ? ' past' : ''}${nm ? ' newm' : ''}" data-day="${y.date}"${y.date === sel ? ' aria-current="date"' : ''}>
+    <span>${nm ? mm + '/' : ''}${+y.date.slice(8)}</span><b>${WD[new Date(y.date + 'T00:00').getDay()]}</b></button>`; }).join('');
+  return `<div class="tools" style="margin-top:0"><input type="search" id="q" value="${esc(dayQ)}" placeholder="도시·장소 검색" aria-label="검색" style="flex:1"><button id="go-today">오늘</button></div>
+  ${q ? `<div class="card">${hits.length ? hits.slice(0, 40).map(y => `<button class="hit" data-day="${y.date}"><b>${md(y.date)}</b> ${esc(y.city)}</button>`).join('') : '<p class="sub" style="margin:0">찾는 날이 없어</p>'}</div>` : ''}
+  <div class="strip" id="strip">${strip}</div>
+  <div class="daynav"><button data-day="${i > 0 ? D.days[i - 1].date : ''}"${i > 0 ? '' : ' disabled'} aria-label="전날">‹</button>
+    <div class="dhead"><div class="k">${md(sel)} · ${i + 1}일째 / ${D.days.length}일</div><h1 style="margin:2px 0;font-size:28px">${esc(x.city)}</h1><div class="sub">${esc(x.country)}</div></div>
+    <button data-day="${i < D.days.length - 1 ? D.days[i + 1].date : ''}"${i < D.days.length - 1 ? '' : ' disabled'} aria-label="다음 날">›</button></div>
+  <div class="card tagcard">${x.plan ? `<div style="font-size:18px;font-weight:600">${esc(x.plan)}</div>` : ''}${plH(x.places)}
+    ${noteTxt([x.note]) && x.note.length > 60 ? more(noteTxt([x.note])) : noteTxt([x.note])}
+    ${D.detail.some(y => y.date === sel) ? `<div style="margin-top:8px">${detailRows(sel)}</div>` : ''}${memoBox(sel)}</div>
+  ${mvs.length ? `<h2>이날 이동</h2>${mvs.map(m => moveCard(m)).join('')}` : ''}
+  ${st ? `<h2>이날 숙소</h2>${stayCard(st)}` : ''}
+  ${x.coffee ? `<p class="sub">커피 ${esc(x.coffee)}</p>` : ''}`;
 }
+function centerStrip() { const st = $('#strip'), on = st && st.querySelector('.on'); if (on) st.scrollLeft = on.offsetLeft - st.clientWidth / 2 + on.clientWidth / 2; }
 
 let showPast = false;
 function vMoves() {
@@ -288,10 +325,10 @@ function vStays() {
   ${list.map(s => stayCard(s, s.cout <= t ? 'past' : '')).join('')}`;
 }
 function checkRow(c) {
-  return `<div class="card"><div class="k">${md(c.date)} · ${esc(c.kind)} ${esc(c.prio)}</div>
-  <div style="font-weight:600">${esc(c.item)}</div><div class="sub">${esc(c.city)}</div>
-  <div>${docH(c.docs)}${goH(c.links, c.codes)}</div><div>${codesH(c.codes)}</div><div class="note">${esc([c.via && '예약처 ' + c.via, c.note, c.when && '살 때: ' + c.when, c.how].filter(Boolean).join('\n'))}</div>
-  <div style="margin-top:6px">${stateP(c.state)}</div></div>`;
+  return `<div class="card"><div class="k">${md(c.date)} · ${esc(c.kind)}</div>
+  <div class="nm" style="font-size:18px">${esc(c.item)}</div>${c.city ? `<div class="sub">${esc(c.city)}</div>` : ''}
+  ${bookH(c.docs, c.links, c.codes)}${c.state ? `<div style="margin-top:8px">${stateP(c.state)}</div>` : ''}
+  ${more(noteTxt([c.prio && '우선순위 ' + c.prio, c.via && '예약처 ' + c.via, c.note, c.when && '살 때: ' + c.when, c.how]))}</div>`;
 }
 function vTodo() {
   const g = {need: [], done: [], out: []};
@@ -443,7 +480,7 @@ function render() {
   if (!D) return;
   const v = cur();
   document.querySelectorAll('nav a').forEach(a => a.toggleAttribute('aria-current', a.getAttribute('href') === '#' + v));
-  $('#app').innerHTML = VIEWS[v](); status();
+  $('#app').innerHTML = VIEWS[v](); status(); if (v === 'days') centerStrip();
 }
 function closeViewer() { const v = $('#viewer'); v.hidden = true; v.innerHTML = ''; document.body.style.overflow = ''; }
 function toast(t) { const el = $('#toast'); el.textContent = t; el.classList.add('on'); setTimeout(() => el.classList.remove('on'), 1400); }
@@ -471,12 +508,14 @@ document.addEventListener('click', async e => {
   if (dy) { const k = dy.dataset.delyes; S.spend = S.spend.filter(x => x.id !== k); S.gone[k] = 1; delAsk = null; save(); render(); toast('지웠어'); return; }
   if (e.target.closest('[data-delno]')) { delAsk = null; render(); return; }
   const rr = e.target.closest('[data-rate-reset]'); if (rr) { delete S.rates[rr.dataset.rateReset]; save(); render(); return; }
+  const dd = e.target.closest('[data-day]');
+  if (dd) { if (dd.dataset.day) { selDay = dd.dataset.day; dayQ = ''; render(); scrollTo(0, 0); } return; }
   const id = e.target.id;
   if (id === 'm-add') { addSpend(); return; }
   if (id === 'past') { showPast = !showPast; render(); }
   else if (id === 'left') { packLeft = !packLeft; render(); }
   else if (id === 'reset-day') { viewDate = null; mCur = null; render(); }
-  else if (id === 'go-today') { const el = $('#d-' + today()) || $('#d-' + D.days[0].date); if (el) { el.open = true; el.scrollIntoView({block: 'start'}); } }
+  else if (id === 'go-today') { selDay = null; dayQ = ''; render(); }
   else if (id === 'clear') { $('#confirm').innerHTML = '<div class="card">짐 체크를 전부 지울까? <div class="tools"><button id="clear-yes">지우기</button><button id="clear-no">그대로 두기</button></div></div>'; }
   else if (id === 'clear-yes') { S.checks = {}; save(); render(); }
   else if (id === 'clear-no') { $('#confirm').innerHTML = ''; }
@@ -495,9 +534,7 @@ document.addEventListener('input', e => {
   const k = e.target.dataset.memo;
   if (k !== undefined) { const v = e.target.value.trim(); if (v) S.memos[k] = e.target.value; else delete S.memos[k]; save(); }
   if (e.target.id === 'm-amt') liveKrw();
-  if (e.target.id === 'q') { const q = e.target.value.trim().toLowerCase();
-    document.querySelectorAll('#daylist details').forEach(d => { d.hidden = q && !d.dataset.s.includes(q); });
-    document.querySelectorAll('#daylist .month').forEach(m => { m.hidden = !!q; }); }
+  if (e.target.id === 'q') { dayQ = e.target.value; render(); const q = $('#q'); q.focus(); q.setSelectionRange(q.value.length, q.value.length); }
 });
 
 // 오프라인판(GitHub)은 window.__LOAD가 암호 풀어 데이터를 줌, claude.ai판은 data.json
