@@ -150,6 +150,7 @@ window.__LOAD = async () => {
     });
   });
 };
+if (navigator.storage && navigator.storage.persist) navigator.storage.persist().catch(() => {});  // 폰이 기록을 함부로 지우지 않게
 if ('serviceWorker' in navigator) addEventListener('load', () => navigator.serviceWorker.register('sw.js').catch(() => {}));
 }
 </script>
@@ -282,7 +283,10 @@ function vToday() {
   ${todo.length ? `<h2>곧 할 예약</h2>${todo.map(c => checkRow(c)).join('')}` : ''}
   <h2>다른 날 미리보기</h2><div class="tools"><input type="date" id="pick" value="${esc(t)}" style="flex:1" aria-label="날짜 고르기">
   ${viewDate ? '<button id="reset-day">진짜 오늘로</button>' : ''}</div>
-  <p class="sub">데이터 기준 ${esc(D.built)} · 정본에서 뽑은 보기 전용(일정 수정은 정본에서)</p>`;
+  <p class="sub">데이터 기준 ${esc(D.built)} · 정본에서 뽑은 보기 전용(일정 수정은 정본에서)</p>
+  <details><summary><h2 style="margin:0;font-size:17px">기록 백업 (짐 체크·메모·지출)</h2></summary><div class="card">
+    <p class="sub" style="margin:0 0 8px">${window.__OFFLINE ? '오프라인판은 기록이 이 폰 안에만 있어. 가끔 「복사」해서 메모 앱에 붙여 두면 안전해.' : '다른 기기·오프라인판으로 옮길 때 써.'} 지출 ${S.spend.length}개 · 짐 체크 ${Object.keys(S.checks).length}개 · 메모 ${Object.keys(S.memos).length}개</p>
+    <div class="tools"><button id="bk-copy">복사</button><button id="bk-open">붙여넣어 합치기</button></div><div id="bk-box"></div></div></details>`;
 }
 
 let selDay = null, dayQ = '';
@@ -291,13 +295,12 @@ function vDays() {
   const sel = selDay || (t < first ? first : t > last ? last : t);
   const i = D.days.findIndex(y => y.date === sel), x = D.days[i];
   const mvs = D.moves.filter(m => m.date === sel), st = D.stays.find(s => s.cin <= sel && sel < s.cout);
-  const q = dayQ.trim().toLowerCase(), hits = q ? D.days.filter(y => (y.city + ' ' + y.plan + ' ' + y.country).toLowerCase().includes(q)) : [];
   let mon = '';
   const strip = D.days.map(y => { const mm = +y.date.slice(5, 7), nm = mm !== mon; mon = mm;
     return `<button class="dchip${y.date === sel ? ' on' : ''}${y.date < t ? ' past' : ''}${nm ? ' newm' : ''}" data-day="${y.date}"${y.date === sel ? ' aria-current="date"' : ''}>
     <span>${nm ? mm + '/' : ''}${+y.date.slice(8)}</span><b>${WD[new Date(y.date + 'T00:00').getDay()]}</b></button>`; }).join('');
   return `<div class="tools" style="margin-top:0"><input type="search" id="q" value="${esc(dayQ)}" placeholder="도시·장소 검색" aria-label="검색" style="flex:1"><button id="go-today">오늘</button></div>
-  ${q ? `<div class="card">${hits.length ? hits.slice(0, 40).map(y => `<button class="hit" data-day="${y.date}"><b>${md(y.date)}</b> ${esc(y.city)}</button>`).join('') : '<p class="sub" style="margin:0">찾는 날이 없어</p>'}</div>` : ''}
+  <div id="hits">${hitsH(dayQ)}</div>
   <div class="strip" id="strip">${strip}</div>
   <div class="daynav"><button data-day="${i > 0 ? D.days[i - 1].date : ''}"${i > 0 ? '' : ' disabled'} aria-label="전날">‹</button>
     <div class="dhead"><div class="k">${md(sel)} · ${i + 1}일째 / ${D.days.length}일</div><h1 style="margin:2px 0;font-size:28px">${esc(x.city)}</h1><div class="sub">${esc(x.country)}</div></div>
@@ -308,6 +311,11 @@ function vDays() {
   ${mvs.length ? `<h2>이날 이동</h2>${mvs.map(m => moveCard(m)).join('')}` : ''}
   ${st ? `<h2>이날 숙소</h2>${stayCard(st)}` : ''}
   ${x.coffee ? `<p class="sub">커피 ${esc(x.coffee)}</p>` : ''}`;
+}
+function hitsH(raw) {
+  const q = (raw || '').trim().toLowerCase(); if (!q) return '';
+  const hits = D.days.filter(y => (y.city + ' ' + y.plan + ' ' + y.country + ' ' + y.note).toLowerCase().includes(q));
+  return `<div class="card">${hits.length ? hits.slice(0, 40).map(y => `<button class="hit" data-day="${y.date}"><b>${md(y.date)}</b> ${esc(y.city)}</button>`).join('') : '<p class="sub" style="margin:0">찾는 날이 없어</p>'}</div>`;
 }
 function centerStrip() { const st = $('#strip'), on = st && st.querySelector('.on'); if (on) st.scrollLeft = on.offsetLeft - st.clientWidth / 2 + on.clientWidth / 2; }
 
@@ -486,6 +494,7 @@ function closeViewer() { const v = $('#viewer'); v.hidden = true; v.innerHTML = 
 function toast(t) { const el = $('#toast'); el.textContent = t; el.classList.add('on'); setTimeout(() => el.classList.remove('on'), 1400); }
 
 addEventListener('hashchange', () => { render(); scrollTo(0, 0); });
+addEventListener('popstate', () => { if (!$('#viewer').hidden) closeViewer(); });
 // 인터넷이 돌아오거나 앱으로 다시 돌아오면, 이 기기에만 있던 기록을 계정에 다시 올림
 addEventListener('online', () => { if (S.ts) push(); });
 document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible' && navigator.onLine && S.ts) push(); });
@@ -495,8 +504,8 @@ document.addEventListener('click', async e => {
     v.innerHTML = `<div class="vbar"><b>${esc(dv.dataset.title)}</b><button id="vclose">닫기</button></div>`
       + dv.dataset.doc.split('|').map((u, i) => `<img src="${esc((window.__IMG && window.__IMG[u]) || u)}" alt="${esc(dv.dataset.title)} ${i + 1}쪽">`).join('')
       + '<p class="sub" style="text-align:center;padding:8px 16px 40px">두 손가락으로 확대 · 인터넷 없을 땐 파일 앱 🌏✈️ 폴더에서 열기</p>';
-    v.hidden = false; v.scrollTop = 0; document.body.style.overflow = 'hidden'; $('#vclose').focus(); return; }
-  if (e.target.id === 'vclose') { closeViewer(); return; }
+    v.hidden = false; v.scrollTop = 0; document.body.style.overflow = 'hidden'; history.pushState({viewer: 1}, ''); $('#vclose').focus(); return; }
+  if (e.target.id === 'vclose') { if (history.state && history.state.viewer) history.back(); else closeViewer(); return; }
   const g = e.target.closest('a[data-code]');
   if (g) { navigator.clipboard?.writeText(g.dataset.code).then(() => toast('예약번호 복사함 · ' + g.dataset.code), () => {}); return; }
   const c = e.target.closest('[data-copy]');
@@ -511,6 +520,14 @@ document.addEventListener('click', async e => {
   const dd = e.target.closest('[data-day]');
   if (dd) { if (dd.dataset.day) { selDay = dd.dataset.day; dayQ = ''; render(); scrollTo(0, 0); } return; }
   const id = e.target.id;
+  if (id === 'bk-copy') { const t = JSON.stringify({wt: 1, checks: S.checks, memos: S.memos, spend: S.spend, gone: S.gone, rates: S.rates});
+    navigator.clipboard?.writeText(t).then(() => toast('기록 복사함 · 메모 앱에 붙여 둬'), () => { $('#bk-box').innerHTML = `<textarea readonly>${esc(t)}</textarea>`; toast('길게 눌러 복사해 줘'); }); return; }
+  if (id === 'bk-open') { $('#bk-box').innerHTML = '<textarea id="bk-in" placeholder="복사해 둔 기록 붙여넣기"></textarea><div class="tools"><button id="bk-merge">합치기</button></div>'; return; }
+  if (id === 'bk-merge') { try { const v = JSON.parse($('#bk-in').value); if (!v || v.wt !== 1) throw 0;
+      const gone = Object.assign({}, v.gone || {}, S.gone), seen = new Set();
+      S.spend = [...S.spend, ...(v.spend || [])].filter(x => !gone[x.id] && !seen.has(x.id) && seen.add(x.id)); S.gone = gone;
+      S.checks = Object.assign({}, v.checks || {}, S.checks); S.memos = Object.assign({}, v.memos || {}, S.memos); S.rates = Object.assign({}, v.rates || {}, S.rates);
+      save(); render(); toast('합쳤어 · 지출 ' + S.spend.length + '개'); } catch (er) { toast('백업 글이 아니야. 복사한 걸 그대로 붙여 줘'); } return; }
   if (id === 'm-add') { addSpend(); return; }
   if (id === 'past') { showPast = !showPast; render(); }
   else if (id === 'left') { packLeft = !packLeft; render(); }
@@ -528,13 +545,13 @@ document.addEventListener('change', e => {
   if (rk) { const v = parseFloat(e.target.value.replace(/,/g, '')); if (v > 0 && v !== D.rates[rk]) S.rates[rk] = v; else delete S.rates[rk]; save(); render(); }
   if (e.target.id === 'pick') { mCur = null; delAsk = null; viewDate = e.target.value && e.target.value !== iso(new Date()) ? e.target.value : null; render(); }
 });
-document.addEventListener('keydown', e => { if (e.key === 'Escape' && !$('#viewer').hidden) closeViewer(); });
-document.addEventListener('keydown', e => { if (e.key === 'Enter' && (e.target.id === 'm-amt' || e.target.id === 'm-memo')) { e.preventDefault(); addSpend(); } });
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && !$('#viewer').hidden) { if (history.state && history.state.viewer) history.back(); else closeViewer(); } });
+document.addEventListener('keydown', e => { if (e.key === 'Enter' && !e.isComposing && e.keyCode !== 229 && (e.target.id === 'm-amt' || e.target.id === 'm-memo')) { e.preventDefault(); addSpend(); } });
 document.addEventListener('input', e => {
   const k = e.target.dataset.memo;
   if (k !== undefined) { const v = e.target.value.trim(); if (v) S.memos[k] = e.target.value; else delete S.memos[k]; save(); }
   if (e.target.id === 'm-amt') liveKrw();
-  if (e.target.id === 'q') { dayQ = e.target.value; render(); const q = $('#q'); q.focus(); q.setSelectionRange(q.value.length, q.value.length); }
+  if (e.target.id === 'q') { dayQ = e.target.value; const h = $('#hits'); if (h) h.innerHTML = hitsH(dayQ); }
 });
 
 // 오프라인판(GitHub)은 window.__LOAD가 암호 풀어 데이터를 줌, claude.ai판은 data.json
